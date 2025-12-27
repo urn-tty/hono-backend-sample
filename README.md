@@ -43,15 +43,15 @@ services:
       - ./src:/app/src
       - ./package.json:/app/package.json
       - ./bun.lock:/app/bun.lock
-      - /app/node_modules
+      - /app/node_modules  # コンテナ内のnode_modulesを保護（ローカルのnode_modulesと分離）
     command: bun run --watch src/server.ts
 EOF
 
 # .envでNODE_ENV=developmentを設定
 # docker-compose.override.ymlが自動的に読み込まれます
 
-# コンテナの起動
-docker-compose up -d
+# コンテナのビルドと起動（パッケージはコンテナ内で自動インストールされます）
+docker-compose up -d --build
 
 # マイグレーションの実行
 docker-compose exec api bun run db:migrate
@@ -59,6 +59,8 @@ docker-compose exec api bun run db:migrate
 # ログの確認
 docker-compose logs -f api
 ```
+
+**注意**: Docker を使う場合、パッケージのインストールはコンテナ内で自動的に行われます。ローカルで`bun install`を実行する必要はありません（IDE の型補完が必要な場合のみ、ローカルでもインストールできます）。
 
 #### 3. 本番環境
 
@@ -82,13 +84,9 @@ docker-compose logs -f api
 
 ### ローカル開発環境の場合
 
-#### 1. 依存関係のインストール
+**注意**: Docker を使う場合は、このセクションはスキップして「Docker Compose を使用する場合」を参照してください。ローカルで直接開発する場合のみ、以下の手順を実行してください。
 
-```bash
-bun install
-```
-
-#### 2. PostgreSQL の起動
+#### 1. PostgreSQL の起動
 
 ```bash
 # Docker ComposeでPostgreSQLのみ起動
@@ -97,7 +95,7 @@ docker-compose up -d postgres
 
 または、ローカルに PostgreSQL がインストールされている場合は、直接起動してください。
 
-#### 3. 環境変数の設定
+#### 2. 環境変数の設定
 
 `.env` ファイルを作成：
 
@@ -106,6 +104,14 @@ cp .env.sample .env
 ```
 
 `.env` ファイルを編集して環境に合わせて設定します。詳細は `.env.sample` を参照してください。
+
+#### 3. 依存関係のインストール（IDE の型補完が必要な場合のみ）
+
+```bash
+bun install
+```
+
+**注意**: Docker を使う場合は、このステップは不要です。コンテナ内で自動的にインストールされます。
 
 #### 4. データベースマイグレーション
 
@@ -117,7 +123,7 @@ bun run db:generate
 bun run db:migrate
 ```
 
-#### 5. 開発サーバーの起動
+#### 5. 開発サーバーの起動（ローカルの Bun が必要）
 
 ```bash
 bun run dev
@@ -209,13 +215,13 @@ bun run db:studio
 ### Docker Compose
 
 ```bash
-# コンテナの起動
-docker-compose up -d
+# コンテナのビルドと起動（パッケージは自動インストール）
+docker-compose up -d --build
 
 # コンテナの停止
 docker-compose down
 
-# コンテナの再ビルド
+# コンテナの再ビルド（パッケージを再インストール）
 docker-compose build
 
 # ログの確認
@@ -224,7 +230,18 @@ docker-compose logs -f api
 # コンテナ内でコマンド実行
 docker-compose exec api bun run db:migrate
 docker-compose exec api bun run db:studio
+
+# パッケージを追加した場合の再インストール
+docker-compose exec api bun install
+# または、コンテナを再ビルド
+docker-compose up -d --build
 ```
+
+**パッケージ管理について**:
+
+- パッケージの追加・削除は`package.json`を編集
+- コンテナ内で`docker-compose exec api bun install`を実行、またはコンテナを再ビルド
+- ローカルの`node_modules`は不要（IDE の型補完が必要な場合のみローカルでもインストール可能）
 
 #### 環境の切り替え
 
