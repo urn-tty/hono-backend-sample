@@ -13,8 +13,6 @@ DDD（ドメイン駆動設計）とクリーンアーキテクチャの原則�
 - **Database**: SQLite (better-sqlite3)
 - **Validation**: Zod
 - **Migration**: Drizzle Kit
-- **RPC**: Hono RPC (型安全な API 通信)
-- **Client**: hc (Hono Client - 型安全なクライアント)
 - **Architecture**: DDD (ドメイン駆動設計) + クリーンアーキテクチャ
 
 ## セットアップ
@@ -41,7 +39,7 @@ bun run db:migrate
 bun run dev
 ```
 
-サーバーは `http://localhost:3000` で起動します。
+サーバーは `http://localhost:8080` で起動します。
 
 ## ディレクトリ構造
 
@@ -81,10 +79,7 @@ bun run dev
 │   ├── di/                        # 依存性注入
 │   │   └── container.ts
 │   ├── index.ts                   # メインアプリケーション
-│   ├── types.ts                   # 型定義（RPC用）
-│   ├── client.ts                  # サーバーサイドクライアント
 │   └── server.ts                  # サーバーエントリーポイント
-├── client-example.ts              # フロントエンド用クライアント例
 ├── drizzle/                       # マイグレーションファイル（自動生成）
 ├── drizzle.config.ts              # Drizzle設定
 ├── tsconfig.json                  # TypeScript設定
@@ -121,42 +116,6 @@ bun run db:migrate
 # Drizzle Studio（DB管理UI）
 bun run db:studio
 ```
-
-## Hono RPC と hc クライアント
-
-このプロジェクトは、Hono RPC と hc クライアントを使用したエンドツーエンドの型安全性をサポートしています。
-
-### フロントエンドでの使用例
-
-```typescript
-import { hc } from "hono/client";
-import type { App } from "./src/types";
-
-// 型安全なクライアントを作成
-const client = hc<App>("http://localhost:3000");
-
-// 型安全なAPI呼び出し
-const res = await client.api.users.$get();
-const users = await res.json(); // User[] 型が推論される
-
-// ユーザー作成
-const newUser = await client.api.users.$post({
-  json: {
-    name: "John Doe",
-    email: "john@example.com",
-  },
-});
-const created = await newUser.json(); // User 型が推論される
-```
-
-詳細な使用例は `client-example.ts` を参照してください。
-
-### 型安全性のメリット
-
-- **コンパイル時型チェック**: API の変更が即座にフロントエンドの型エラーとして検出されます
-- **自動補完**: IDE でエンドポイントやパラメータの自動補完が効きます
-- **型推論**: レスポンスの型が自動的に推論されます
-- **リファクタリング安全性**: API の変更時に型エラーで影響箇所を把握できます
 
 ## アーキテクチャ
 
@@ -204,6 +163,5 @@ Presentation → Application → Domain
 `.env` ファイルを作成して以下を設定できます（オプション）：
 
 ```env
-PORT=3000
-API_URL=http://localhost:3000
+PORT=8080
 ```

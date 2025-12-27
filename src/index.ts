@@ -29,6 +29,6 @@ app.route('/api/users', createUserRoutes(userController));
 
 export default app;
 
-// Hono RPC用の型エクスポート
+// 型エクスポート（必要に応じて使用）
 export type AppType = typeof app;
 

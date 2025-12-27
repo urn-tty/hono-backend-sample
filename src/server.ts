@@ -1,6 +1,6 @@
 import app from "./index";
 
-// 環境変数からポートを取得（デフォルト: 3000）
+// 環境変数からポートを取得（デフォルト: 8080）
 // Bunでは process.env が利用可能
 declare const process: {
   env: {
@@ -9,7 +9,7 @@ declare const process: {
   };
 };
 
-const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 8080;
 
 export default {
   port,
