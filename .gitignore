@@ -28,5 +28,5 @@ docker-compose.override.yml
 Thumbs.db
 
 # Drizzle
-drizzle/
+# drizzle/  # マイグレーションファイルはGitにコミット（チームで共有）
 

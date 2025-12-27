@@ -4,7 +4,6 @@ npm-debug.log
 .env.local
 *.db
 *.db-journal
-drizzle
 .git
 .gitignore
 README.md

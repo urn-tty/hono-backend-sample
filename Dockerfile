@@ -28,8 +28,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/src ./src
 COPY --from=builder /app/drizzle.config.ts ./drizzle.config.ts
-# drizzleディレクトリは存在する場合のみコピー（オプショナル）
-COPY --from=builder /app/drizzle* ./drizzle* 2>/dev/null || true
+COPY --from=builder /app/drizzle ./drizzle
 
 # ポートを公開
 EXPOSE 8080

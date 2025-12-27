@@ -56,6 +56,10 @@ docker-compose up -d --build
 # マイグレーションの実行
 docker-compose exec api bun run db:migrate
 
+# スキーマを変更した場合のみ: マイグレーションファイルの生成
+docker-compose exec api bun run db:generate
+# 生成されたマイグレーションファイルはGitにコミットしてください
+
 # ログの確認
 docker-compose logs -f api
 ```
