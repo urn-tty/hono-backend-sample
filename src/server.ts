@@ -1,7 +1,7 @@
-import app from "./index";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
+import app from "./index";
 
 // 環境変数からポートを取得（デフォルト: 8080）
 // Bunでは process.env が利用可能
