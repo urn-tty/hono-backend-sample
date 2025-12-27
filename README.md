@@ -33,17 +33,17 @@ cp .env.sample .env
 
 ```bash
 # コンテナのビルドと起動（パッケージはコンテナ内で自動インストールされます）
-docker-compose up -d --build
+docker compose up -d --build
 
 # マイグレーションの実行
-docker-compose exec api bun run db:migrate
+docker compose exec api bun run db:migrate
 
 # スキーマを変更した場合のみ: マイグレーションファイルの生成
-docker-compose exec api bun run db:generate
+docker compose exec api bun run db:generate
 # 生成されたマイグレーションファイルはGitにコミットしてください
 
 # ログの確認
-docker-compose logs -f api
+docker compose logs -f api
 ```
 
 **注意**: Docker を使う場合、パッケージのインストールはコンテナ内で自動的に行われます。ローカルで`bun install`を実行する必要はありません（IDE の型補完が必要な場合のみ、ローカルでもインストールできます）。
@@ -55,13 +55,13 @@ docker-compose logs -f api
 # docker-compose.override.ymlが存在しない、または削除されていることを確認
 
 # コンテナの起動
-docker-compose up -d
+docker compose up -d
 
 # マイグレーションの実行
-docker-compose exec api bun run db:migrate
+docker compose exec api bun run db:migrate
 
 # ログの確認
-docker-compose logs -f api
+docker compose logs -f api
 ```
 
 サーバーは `http://localhost:${PORT:-8080}` で起動します（デフォルト: 8080）。
@@ -76,7 +76,7 @@ docker-compose logs -f api
 
 ```bash
 # Docker ComposeでPostgreSQLのみ起動
-docker-compose up -d postgres
+docker compose up -d postgres
 ```
 
 または、ローカルに PostgreSQL がインストールされている場合は、直接起動してください。
@@ -186,31 +186,31 @@ bun run dev
 
 ```bash
 # コンテナのビルドと起動（パッケージは自動インストール）
-docker-compose up -d --build
+docker compose up -d --build
 
 # コンテナの停止
-docker-compose down
+docker compose down
 
 # コンテナの再ビルド（パッケージを再インストール）
-docker-compose build
+docker compose build
 
 # ログの確認
-docker-compose logs -f api
+docker compose logs -f api
 
 # コンテナ内でコマンド実行
-docker-compose exec api bun run db:migrate
-docker-compose exec api bun run db:studio
+docker compose exec api bun run db:migrate
+docker compose exec api bun run db:studio
 
 # パッケージを追加した場合の再インストール
-docker-compose exec api bun install
+docker compose exec api bun install
 # または、コンテナを再ビルド
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 **パッケージ管理について**:
 
 - パッケージの追加・削除は`package.json`を編集
-- コンテナ内で`docker-compose exec api bun install`を実行、またはコンテナを再ビルド
+- コンテナ内で`docker compose exec api bun install`を実行、またはコンテナを再ビルド
 - ローカルの`node_modules`は不要（IDE の型補完が必要な場合のみローカルでもインストール可能）
 
 #### 環境の切り替え
@@ -280,7 +280,7 @@ cp .env.sample .env
 ### 環境変数の優先順位
 
 1. `.env` ファイルの値
-2. 環境変数（`export` や `docker-compose` の `environment`）
+2. 環境変数（`export` や `docker compose` の `environment`）
 3. docker-compose.yml のデフォルト値（`${VAR:-default}`）
 
 ### Docker Compose での使用
