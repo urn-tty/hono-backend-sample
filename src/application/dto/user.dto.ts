@@ -23,9 +23,11 @@ export type UpdateUserDto = z.infer<typeof UpdateUserDtoSchema>;
 /**
  * ユーザーレスポンスDTO
  */
-export interface UserResponseDto {
-  id: number;
-  name: string;
-  email: string;
-  createdAt: string;
-}
+export const UserResponseDtoSchema = z.object({
+  id: z.number().int().positive(),
+  name: z.string(),
+  email: z.string().email(),
+  createdAt: z.string(),
+});
+
+export type UserResponseDto = z.infer<typeof UserResponseDtoSchema>;

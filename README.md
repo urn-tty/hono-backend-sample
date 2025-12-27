@@ -30,6 +30,8 @@ docker compose exec api bun run db:migrate
 
 サーバーが `http://localhost:8080` で起動します。
 
+**API ドキュメント**: `http://localhost:8080/api/docs`
+
 ## ディレクトリ構造
 
 ```
@@ -56,6 +58,15 @@ src/
 - `POST /api/users` - 作成
 - `PUT /api/users/:id` - 更新
 - `DELETE /api/users/:id` - 削除
+
+## API ドキュメント
+
+アプリケーション起動後、以下の URL でインタラクティブな API ドキュメントにアクセスできます：
+
+- **Scalar UI**: `http://localhost:8080/api/docs`
+- **OpenAPI JSON**: `http://localhost:8080/api/openapi.json`
+
+Zod スキーマから自動生成されるため、常に最新の API 仕様が確認できます。
 
 ## 開発コマンド
 

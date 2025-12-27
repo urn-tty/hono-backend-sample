@@ -32,6 +32,8 @@
     "hono": "^4.6.0",
     "zod": "^3.23.8",
     "@hono/zod-validator": "^0.7.6",
+    "@hono/zod-openapi": "^0.19.2",
+    "@scalar/hono-api-reference": "^0.5.0",
     "drizzle-orm": "^0.45.1",
     "postgres": "^3.4.5"
   },

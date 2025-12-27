@@ -103,6 +103,30 @@ Presentation → Application → Domain
    - HTTPリクエスト: Presentation層
    - ビジネスルール: Domain層
 
+## APIドキュメント
+
+### @hono/zod-openapi
+
+このプロジェクトでは、`@hono/zod-openapi`を使用してAPIドキュメントを自動生成しています。
+
+1. **スキーマ定義**
+   - DTOはZodスキーマで定義する
+   - OpenAPIの仕様に自動変換される
+
+2. **ルート定義**
+   - `createRoute()`を使ってOpenAPI対応のルートを定義
+   - リクエスト・レスポンスのスキーマを明示的に指定
+
+3. **ドキュメントアクセス**
+   - Scalar UI: `http://localhost:8080/api/docs`
+   - OpenAPI JSON: `http://localhost:8080/api/openapi.json`
+
+4. **メリット**
+   - Zodスキーマから自動生成されるため、常に最新
+   - 型安全性が保証される
+   - ドキュメントとコードの二重管理が不要
+   - インタラクティブなUIでAPIテストが可能
+
 ## Git ワークフロー
 
 ### コミット前
