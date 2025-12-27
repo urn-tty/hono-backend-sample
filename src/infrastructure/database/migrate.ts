@@ -1,7 +1,43 @@
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
-import { db } from './db';
+import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import * as schema from './drizzle.schema';
 
-console.log('Running migrations...');
-migrate(db, { migrationsFolder: './drizzle' });
-console.log('Migrations completed!');
+async function runMigrations() {
+  const client = postgres(process.env.DATABASE_URL || 'postgresql://postgres:postgres@postgres:5432/api_sample', {
+    max: 1,
+    idle_timeout: 20,
+    connect_timeout: 10,
+  });
+  
+  const db = drizzle(client, { schema });
+
+  try {
+    console.log('Running migrations...');
+    console.log('Database URL:', process.env.DATABASE_URL || 'not set');
+    
+    // 接続テスト
+    await client`SELECT 1`;
+    console.log('Database connection successful');
+    
+    // migrateはPromiseを返すので、awaitで待つ
+    await migrate(db, { migrationsFolder: './drizzle' });
+    
+    console.log('Migrations completed!');
+    await client.end();
+    process.exit(0);
+  } catch (error: any) {
+    console.error('Migration failed:', error);
+    if (error.message) {
+      console.error('Error message:', error.message);
+    }
+    if (error.stack) {
+      console.error('Stack:', error.stack);
+    }
+    await client.end();
+    process.exit(1);
+  }
+}
+
+runMigrations();
 

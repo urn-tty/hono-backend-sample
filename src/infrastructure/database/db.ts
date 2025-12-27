@@ -12,8 +12,12 @@ declare const process: {
 
 const databaseUrl = process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/api_sample';
 
-// PostgreSQL接続を作成
-const client = postgres(databaseUrl);
+// PostgreSQL接続を作成（接続オプションを明示的に設定）
+const client = postgres(databaseUrl, {
+  max: 1,
+  idle_timeout: 20,
+  connect_timeout: 10,
+});
 
 export const db = drizzle(client, { schema });
 

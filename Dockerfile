@@ -19,22 +19,17 @@ RUN if [ "$NODE_ENV" = "production" ]; then \
 COPY . .
 
 # 本番ステージ（本番環境のみ）
-FROM oven/bun:1.3.5-slim AS production
+FROM oven/bun:1.3.5 AS production
 
 WORKDIR /app
 
-# 非rootユーザーを作成
-RUN addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 bunuser
-
 # ビルドステージから依存関係とアプリケーションをコピー
-COPY --from=builder --chown=bunuser:nodejs /app/node_modules ./node_modules
-COPY --from=builder --chown=bunuser:nodejs /app/package.json ./package.json
-COPY --from=builder --chown=bunuser:nodejs /app/src ./src
-COPY --from=builder --chown=bunuser:nodejs /app/drizzle.config.ts ./drizzle.config.ts
-
-# 非rootユーザーに切り替え
-USER bunuser
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/src ./src
+COPY --from=builder /app/drizzle.config.ts ./drizzle.config.ts
+# drizzleディレクトリは存在する場合のみコピー（オプショナル）
+COPY --from=builder /app/drizzle* ./drizzle* 2>/dev/null || true
 
 # ポートを公開
 EXPOSE 8080
