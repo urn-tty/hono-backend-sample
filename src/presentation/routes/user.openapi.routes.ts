@@ -55,7 +55,7 @@ export function createUserOpenAPIRoutes(controller: UserController) {
       },
     }),
     // @ts-expect-error - Controller returns multiple status codes
-    async (c) => controller.list(c)
+    async (c) => controller.list(c),
   );
 
   // ユーザー取得
@@ -105,7 +105,7 @@ export function createUserOpenAPIRoutes(controller: UserController) {
       },
     }),
     // @ts-expect-error - Controller returns multiple status codes
-    async (c) => controller.get(c)
+    async (c) => controller.get(c),
   );
 
   // ユーザー作成
@@ -160,7 +160,7 @@ export function createUserOpenAPIRoutes(controller: UserController) {
         },
       },
     }),
-    async (c) => controller.create(c)
+    async (c) => controller.create(c),
   );
 
   // ユーザー更新
@@ -225,7 +225,7 @@ export function createUserOpenAPIRoutes(controller: UserController) {
       },
     }),
     // @ts-expect-error - Controller returns multiple status codes
-    async (c) => controller.update(c)
+    async (c) => controller.update(c),
   );
 
   // ユーザー削除
@@ -277,7 +277,7 @@ export function createUserOpenAPIRoutes(controller: UserController) {
       },
     }),
     // @ts-expect-error - Controller returns multiple status codes
-    async (c) => controller.delete(c)
+    async (c) => controller.delete(c),
   );
 
   return app;
