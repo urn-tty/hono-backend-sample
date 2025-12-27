@@ -1,6 +1,6 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
-import * as schema from './drizzle.schema';
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+import * as schema from "./drizzle.schema";
 
 // 環境変数からデータベースURLを取得
 declare const process: {
@@ -10,7 +10,9 @@ declare const process: {
   };
 };
 
-const databaseUrl = process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/hono_backend_sample';
+const databaseUrl =
+  process.env.DATABASE_URL ||
+  "postgresql://postgres:postgres@localhost:5432/hono_backend_sample";
 
 // PostgreSQL接続を作成（接続オプションを明示的に設定）
 const client = postgres(databaseUrl, {
@@ -20,4 +22,3 @@ const client = postgres(databaseUrl, {
 });
 
 export const db = drizzle(client, { schema });
-

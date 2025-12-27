@@ -7,7 +7,7 @@ export class User {
     public readonly id: number | null,
     public readonly name: string,
     public readonly email: string,
-    public readonly createdAt: Date | null = null
+    public readonly createdAt: Date | null = null,
   ) {
     this.validate();
   }
@@ -46,7 +46,7 @@ export class User {
     id: number,
     name: string,
     email: string,
-    createdAt: Date | null = null
+    createdAt: Date | null = null,
   ): User {
     return new User(id, name, email, createdAt);
   }

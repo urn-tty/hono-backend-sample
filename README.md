@@ -15,6 +15,9 @@ DDD（ドメイン駆動設計）とクリーンアーキテクチャの原則�
 - **Container**: Docker & Docker Compose
 - **Migration**: Drizzle Kit
 - **Architecture**: DDD (ドメイン駆動設計) + クリーンアーキテクチャ
+- **Code Quality**: Biome (Linter & Formatter)
+- **Testing**: Bun Test (Jest 互換)
+- **Git Hooks**: Husky
 
 ## セットアップ
 
@@ -109,6 +112,9 @@ docker compose logs -f api
 │   └── server.ts                  # サーバーエントリーポイント
 ├── drizzle/                       # マイグレーションファイル（自動生成）
 ├── drizzle.config.ts              # Drizzle設定
+├── biome.json                     # Biome設定（リンター・フォーマッター）
+├── .husky/                        # Git Hooks（Husky）
+│   └── pre-commit                 # プリコミットフック
 ├── Dockerfile                     # Dockerイメージ定義（マルチステージビルド）
 ├── docker-compose.yml             # Docker Compose設定
 ├── .dockerignore                  # Docker除外ファイル
@@ -132,6 +138,49 @@ docker compose logs -f api
 - `DELETE /api/users/:id` - ユーザー削除
 
 ## 開発コマンド
+
+### コード品質ツール
+
+#### Biome（リンター・フォーマッター）
+
+```bash
+# フォーマットとリントのチェック
+bun run check
+
+# フォーマットとリントの自動修正
+bun run check:fix
+
+# フォーマットのみ（自動修正）
+bun run format
+
+# フォーマットのチェックのみ
+bun run format:check
+
+# リントのみ（自動修正）
+bun run lint:fix
+
+# リントのチェックのみ
+bun run lint
+```
+
+#### テスト
+
+```bash
+# テストの実行
+bun test
+
+# ウォッチモードでテストを実行
+bun test:watch
+```
+
+#### Git Hooks (Husky)
+
+プリコミットフックが設定されており、コミット前に自動的に以下が実行されます：
+
+- Biome によるコードフォーマットとリントチェック（自動修正付き）
+- テストの実行
+
+コミットをスキップする場合は `git commit --no-verify` を使用できます（非推奨）。
 
 ### Docker Compose
 

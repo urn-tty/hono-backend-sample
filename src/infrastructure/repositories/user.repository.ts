@@ -1,8 +1,8 @@
-import { User } from '../../domain/entities/user.entity';
-import { IUserRepository } from '../../domain/repositories/user.repository.interface';
-import { db } from '../database/db';
-import { users } from '../database/drizzle.schema';
-import { eq } from 'drizzle-orm';
+import { eq } from "drizzle-orm";
+import { User } from "../../domain/entities/user.entity";
+import type { IUserRepository } from "../../domain/repositories/user.repository.interface";
+import { db } from "../database/db";
+import { users } from "../database/drizzle.schema";
 
 /**
  * User リポジトリ実装
@@ -25,7 +25,7 @@ export class UserRepository implements IUserRepository {
         newUser.id,
         newUser.name,
         newUser.email,
-        newUser.createdAt
+        newUser.createdAt,
       );
     } else {
       // 更新
@@ -47,13 +47,17 @@ export class UserRepository implements IUserRepository {
         updatedUser.id,
         updatedUser.name,
         updatedUser.email,
-        updatedUser.createdAt
+        updatedUser.createdAt,
       );
     }
   }
 
   async findById(id: number): Promise<User | null> {
-    const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
+    const result = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, id))
+      .limit(1);
 
     if (result.length === 0) {
       return null;
@@ -81,7 +85,7 @@ export class UserRepository implements IUserRepository {
   async findAll(): Promise<User[]> {
     const result = await db.select().from(users);
     return result.map((user) =>
-      User.reconstruct(user.id, user.name, user.email, user.createdAt)
+      User.reconstruct(user.id, user.name, user.email, user.createdAt),
     );
   }
 
@@ -89,4 +93,3 @@ export class UserRepository implements IUserRepository {
     await db.delete(users).where(eq(users.id, id));
   }
 }
-

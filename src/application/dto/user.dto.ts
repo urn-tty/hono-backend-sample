@@ -1,11 +1,11 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * ユーザー作成用DTO
  */
 export const CreateUserDtoSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Valid email is required'),
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Valid email is required"),
 });
 
 export type CreateUserDto = z.infer<typeof CreateUserDtoSchema>;
@@ -29,4 +29,3 @@ export interface UserResponseDto {
   email: string;
   createdAt: string;
 }
-

@@ -1,7 +1,10 @@
-import { User } from '../../domain/entities/user.entity';
-import { IUserRepository } from '../../domain/repositories/user.repository.interface';
-import { UserNotFoundError, EmailAlreadyExistsError } from '../../domain/errors/domain.error';
-import { UpdateUserDto } from '../dto/user.dto';
+import type { User } from "../../domain/entities/user.entity";
+import {
+  EmailAlreadyExistsError,
+  UserNotFoundError,
+} from "../../domain/errors/domain.error";
+import type { IUserRepository } from "../../domain/repositories/user.repository.interface";
+import type { UpdateUserDto } from "../dto/user.dto";
 
 /**
  * ユーザー更新ユースケース
@@ -37,4 +40,3 @@ export class UpdateUserUseCase {
     return await this.userRepository.save(updatedUser);
   }
 }
-

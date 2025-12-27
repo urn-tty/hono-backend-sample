@@ -1,4 +1,4 @@
-import { User } from '../entities/user.entity';
+import type { User } from "../entities/user.entity";
 
 /**
  * User リポジトリインターフェース
@@ -30,4 +30,3 @@ export interface IUserRepository {
    */
   delete(id: number): Promise<void>;
 }
-

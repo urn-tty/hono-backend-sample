@@ -1,5 +1,5 @@
-import { User } from '../../domain/entities/user.entity';
-import { UserResponseDto } from '../../application/dto/user.dto';
+import type { UserResponseDto } from "../../application/dto/user.dto";
+import type { User } from "../../domain/entities/user.entity";
 
 /**
  * エンティティとDTOのマッピング
@@ -8,7 +8,7 @@ import { UserResponseDto } from '../../application/dto/user.dto';
 export class UserMapper {
   static toDto(user: User): UserResponseDto {
     if (user.id === null) {
-      throw new Error('User id is required for DTO mapping');
+      throw new Error("User id is required for DTO mapping");
     }
 
     return {
@@ -20,7 +20,6 @@ export class UserMapper {
   }
 
   static toDtoList(users: User[]): UserResponseDto[] {
-    return users.map((user) => this.toDto(user));
+    return users.map((user) => UserMapper.toDto(user));
   }
 }
-

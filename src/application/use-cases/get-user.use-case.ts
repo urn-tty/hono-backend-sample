@@ -1,6 +1,6 @@
-import { User } from '../../domain/entities/user.entity';
-import { IUserRepository } from '../../domain/repositories/user.repository.interface';
-import { UserNotFoundError } from '../../domain/errors/domain.error';
+import type { User } from "../../domain/entities/user.entity";
+import { UserNotFoundError } from "../../domain/errors/domain.error";
+import type { IUserRepository } from "../../domain/repositories/user.repository.interface";
 
 /**
  * ユーザー取得ユースケース
@@ -16,4 +16,3 @@ export class GetUserUseCase {
     return user;
   }
 }
-

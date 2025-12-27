@@ -1,5 +1,5 @@
-import { User } from '../../domain/entities/user.entity';
-import { IUserRepository } from '../../domain/repositories/user.repository.interface';
+import type { User } from "../../domain/entities/user.entity";
+import type { IUserRepository } from "../../domain/repositories/user.repository.interface";
 
 /**
  * ユーザー一覧取得ユースケース
@@ -11,4 +11,3 @@ export class ListUsersUseCase {
     return await this.userRepository.findAll();
   }
 }
-

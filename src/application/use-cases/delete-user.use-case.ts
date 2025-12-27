@@ -1,5 +1,5 @@
-import { IUserRepository } from '../../domain/repositories/user.repository.interface';
-import { UserNotFoundError } from '../../domain/errors/domain.error';
+import { UserNotFoundError } from "../../domain/errors/domain.error";
+import type { IUserRepository } from "../../domain/repositories/user.repository.interface";
 
 /**
  * ユーザー削除ユースケース
@@ -18,4 +18,3 @@ export class DeleteUserUseCase {
     await this.userRepository.delete(id);
   }
 }
-

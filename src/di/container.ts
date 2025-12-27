@@ -2,12 +2,13 @@
  * 依存性注入コンテナ
  * 各層の依存関係を管理
  */
-import { UserRepository } from "../infrastructure/repositories/user.repository";
+
 import { CreateUserUseCase } from "../application/use-cases/create-user.use-case";
+import { DeleteUserUseCase } from "../application/use-cases/delete-user.use-case";
 import { GetUserUseCase } from "../application/use-cases/get-user.use-case";
 import { ListUsersUseCase } from "../application/use-cases/list-users.use-case";
 import { UpdateUserUseCase } from "../application/use-cases/update-user.use-case";
-import { DeleteUserUseCase } from "../application/use-cases/delete-user.use-case";
+import { UserRepository } from "../infrastructure/repositories/user.repository";
 import { UserController } from "../presentation/controllers/user.controller";
 
 // リポジトリの作成
@@ -26,5 +27,5 @@ export const userController = new UserController(
   getUserUseCase,
   listUsersUseCase,
   updateUserUseCase,
-  deleteUserUseCase
+  deleteUserUseCase,
 );
