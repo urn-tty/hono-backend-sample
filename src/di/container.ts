@@ -29,3 +29,31 @@ export const userController = new UserController(
   updateUserUseCase,
   deleteUserUseCase,
 );
+
+// Todo関連のインポート
+import { CreateTodoUseCase } from "../application/use-cases/create-todo.use-case";
+import { DeleteTodoUseCase } from "../application/use-cases/delete-todo.use-case";
+import { GetTodoUseCase } from "../application/use-cases/get-todo.use-case";
+import { ListTodosUseCase } from "../application/use-cases/list-todos.use-case";
+import { UpdateTodoUseCase } from "../application/use-cases/update-todo.use-case";
+import { TodoRepository } from "../infrastructure/repositories/todo.repository";
+import { TodoController } from "../presentation/controllers/todo.controller";
+
+// Todoリポジトリの作成
+const todoRepository = new TodoRepository();
+
+// Todoユースケースの作成
+const createTodoUseCase = new CreateTodoUseCase(todoRepository);
+const getTodoUseCase = new GetTodoUseCase(todoRepository);
+const listTodosUseCase = new ListTodosUseCase(todoRepository);
+const updateTodoUseCase = new UpdateTodoUseCase(todoRepository);
+const deleteTodoUseCase = new DeleteTodoUseCase(todoRepository);
+
+// Todoコントローラーの作成
+export const todoController = new TodoController(
+  createTodoUseCase,
+  getTodoUseCase,
+  listTodosUseCase,
+  updateTodoUseCase,
+  deleteTodoUseCase,
+);

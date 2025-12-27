@@ -2,12 +2,11 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import { apiReference } from "@scalar/hono-api-reference";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-import { userController } from "./di/container";
+import { todoController, userController } from "./di/container";
+import { createTodoOpenAPIRoutes } from "./presentation/routes/todo.openapi.routes";
 import { createUserOpenAPIRoutes } from "./presentation/routes/user.openapi.routes";
 
-type Env = {
-  // 環境変数の型定義（必要に応じて追加）
-};
+type Env = Record<string, never>;
 
 const app = new OpenAPIHono<{ Bindings: Env }>();
 
@@ -30,6 +29,9 @@ app.get("/api/health", (c) => {
 // User routes (OpenAPI対応)
 app.route("/api/users", createUserOpenAPIRoutes(userController));
 
+// Todo routes (OpenAPI対応)
+app.route("/api/todos", createTodoOpenAPIRoutes(todoController));
+
 // OpenAPI仕様のJSONエンドポイント
 app.doc("/api/openapi.json", {
   openapi: "3.1.0",
@@ -43,6 +45,10 @@ app.doc("/api/openapi.json", {
     {
       name: "Users",
       description: "ユーザー管理API",
+    },
+    {
+      name: "Todos",
+      description: "Todo管理API",
     },
   ],
 });

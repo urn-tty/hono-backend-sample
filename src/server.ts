@@ -39,8 +39,10 @@ async function runMigrationsInDev() {
     console.log("🔄 Running migrations...");
     await migrate(db, { migrationsFolder: "./drizzle" });
     console.log("✅ Migrations completed!");
-  } catch (error: any) {
-    console.error("❌ Migration failed:", error.message);
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
+    console.error("❌ Migration failed:", errorMessage);
     // 開発環境ではマイグレーションエラーでもサーバーを起動
   } finally {
     await client.end();

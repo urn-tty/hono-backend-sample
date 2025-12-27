@@ -30,13 +30,15 @@ async function runMigrations() {
     console.log("Migrations completed!");
     await client.end();
     process.exit(0);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Migration failed:", error);
-    if (error.message) {
-      console.error("Error message:", error.message);
-    }
-    if (error.stack) {
-      console.error("Stack:", error.stack);
+    if (error && typeof error === "object") {
+      if ("message" in error) {
+        console.error("Error message:", error.message);
+      }
+      if ("stack" in error) {
+        console.error("Stack:", error.stack);
+      }
     }
     await client.end();
     process.exit(1);

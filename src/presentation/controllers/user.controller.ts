@@ -31,15 +31,15 @@ export class UserController {
     try {
       const users = await this.listUsersUseCase.execute();
       return c.json(UserMapper.toDtoList(users));
-    } catch (error) {
+    } catch (_error) {
       return c.json({ error: "Failed to fetch users" }, 500);
     }
   }
 
   async get(c: Context) {
     try {
-      const id = parseInt(c.req.param("id"));
-      if (isNaN(id)) {
+      const id = parseInt(c.req.param("id"), 10);
+      if (Number.isNaN(id)) {
         return c.json({ error: "Invalid ID" }, 400);
       }
 
@@ -60,13 +60,21 @@ export class UserController {
 
       const user = await this.createUserUseCase.execute(dto);
       return c.json(UserMapper.toDto(user), 201);
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error instanceof EmailAlreadyExistsError) {
         return c.json({ error: error.message }, 409);
       }
-      if (error.name === "ZodError") {
+      if (
+        error &&
+        typeof error === "object" &&
+        "name" in error &&
+        error.name === "ZodError"
+      ) {
         return c.json(
-          { error: "Validation error", details: error.errors },
+          {
+            error: "Validation error",
+            details: (error as { errors: unknown }).errors,
+          },
           400,
         );
       }
@@ -76,8 +84,8 @@ export class UserController {
 
   async update(c: Context) {
     try {
-      const id = parseInt(c.req.param("id"));
-      if (isNaN(id)) {
+      const id = parseInt(c.req.param("id"), 10);
+      if (Number.isNaN(id)) {
         return c.json({ error: "Invalid ID" }, 400);
       }
 
@@ -86,16 +94,24 @@ export class UserController {
 
       const user = await this.updateUserUseCase.execute(id, dto);
       return c.json(UserMapper.toDto(user));
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error instanceof UserNotFoundError) {
         return c.json({ error: error.message }, 404);
       }
       if (error instanceof EmailAlreadyExistsError) {
         return c.json({ error: error.message }, 409);
       }
-      if (error.name === "ZodError") {
+      if (
+        error &&
+        typeof error === "object" &&
+        "name" in error &&
+        error.name === "ZodError"
+      ) {
         return c.json(
-          { error: "Validation error", details: error.errors },
+          {
+            error: "Validation error",
+            details: (error as { errors: unknown }).errors,
+          },
           400,
         );
       }
@@ -105,8 +121,8 @@ export class UserController {
 
   async delete(c: Context) {
     try {
-      const id = parseInt(c.req.param("id"));
-      if (isNaN(id)) {
+      const id = parseInt(c.req.param("id"), 10);
+      if (Number.isNaN(id)) {
         return c.json({ error: "Invalid ID" }, 400);
       }
 
