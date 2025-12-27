@@ -1,14 +1,14 @@
-import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+import { pgTable, text, serial, timestamp } from 'drizzle-orm/pg-core';
 
 /**
  * Drizzle ORM スキーマ定義
  * Infrastructure層 - データベースの詳細
  */
-export const users = sqliteTable('users', {
-  id: integer('id').primaryKey({ autoIncrement: true }),
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
-  createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
 export type UserSchema = typeof users.$inferSelect;
