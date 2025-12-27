@@ -5,7 +5,7 @@ export default defineConfig({
   out: './drizzle',
   dialect: 'postgresql',
   dbCredentials: {
-    url: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/api_sample',
+    url: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/hono_backend_sample',
   },
 });
 

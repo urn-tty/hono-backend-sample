@@ -10,7 +10,7 @@ declare const process: {
   };
 };
 
-const databaseUrl = process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/api_sample';
+const databaseUrl = process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/hono_backend_sample';
 
 // PostgreSQL接続を作成（接続オプションを明示的に設定）
 const client = postgres(databaseUrl, {

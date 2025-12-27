@@ -1,5 +1,5 @@
 {
-  "name": "api-sample",
+  "name": "hono-backend-sample",
   "version": "1.0.0",
   "description": "Hono + TypeScript API server with Bun",
   "main": "src/index.ts",

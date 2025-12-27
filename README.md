@@ -1,4 +1,4 @@
-# API Sample
+# hono-backend-sample
 
 Hono + TypeScript + Bun + Drizzle ORM + Zod を使用したバックエンド API サーバー
 

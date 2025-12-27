@@ -4,7 +4,7 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import * as schema from './drizzle.schema';
 
 async function runMigrations() {
-  const client = postgres(process.env.DATABASE_URL || 'postgresql://postgres:postgres@postgres:5432/api_sample', {
+  const client = postgres(process.env.DATABASE_URL || 'postgresql://postgres:postgres@postgres:5432/hono_backend_sample', {
     max: 1,
     idle_timeout: 20,
     connect_timeout: 10,
