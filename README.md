@@ -68,55 +68,6 @@ docker compose logs -f api
 
 **注意**: `docker-compose.override.yml`は開発環境でのみ使用し、本番環境では削除してください（gitignore に追加済み）。
 
-### ローカル開発環境の場合
-
-**注意**: Docker を使う場合は、このセクションはスキップして「Docker Compose を使用する場合」を参照してください。ローカルで直接開発する場合のみ、以下の手順を実行してください。
-
-#### 1. PostgreSQL の起動
-
-```bash
-# Docker ComposeでPostgreSQLのみ起動
-docker compose up -d postgres
-```
-
-または、ローカルに PostgreSQL がインストールされている場合は、直接起動してください。
-
-#### 2. 環境変数の設定
-
-`.env` ファイルを作成：
-
-```bash
-cp .env.sample .env
-```
-
-`.env` ファイルを編集して環境に合わせて設定します。詳細は `.env.sample` を参照してください。
-
-#### 3. 依存関係のインストール（IDE の型補完が必要な場合のみ）
-
-```bash
-bun install
-```
-
-**注意**: Docker を使う場合は、このステップは不要です。コンテナ内で自動的にインストールされます。
-
-#### 4. データベースマイグレーション
-
-```bash
-# マイグレーションファイルの生成
-bun run db:generate
-
-# マイグレーションの実行
-bun run db:migrate
-```
-
-#### 5. 開発サーバーの起動（ローカルの Bun が必要）
-
-```bash
-bun run dev
-```
-
-サーバーは `http://localhost:8080` で起動します。
-
 ## ディレクトリ構造
 
 ```
