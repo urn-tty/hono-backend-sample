@@ -171,9 +171,10 @@ Presentation → Application → Domain
    - 生SQLは避ける（必要な場合は例外）
 
 3. **Drizzle Studio**
-   - Dockerコンテナ内で起動: `docker compose exec api bun run db:studio`
+   - 自動でブラウザを開く: `bun run db:studio:open`
+   - 手動で起動: `docker compose exec api bun run db:studio`
    - アクセスURL: `https://local.drizzle.studio?port=4984&host=127.0.0.1`
-   - 注意: `host=127.0.0.1` を指定しないと接続できない場合があります
+   - 注意: `host=127.0.0.1` を指定しないと接続できない場合があります（サーバーは `--host 0.0.0.0` で起動しますが、ブラウザからは `127.0.0.1` でアクセスします）
 
 ## パフォーマンス
 

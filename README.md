@@ -95,8 +95,12 @@ docker compose exec api bun run db:migrate
 # スキーマ変更後のマイグレーションファイル生成
 docker compose exec api bun run db:generate
 
-# Drizzle Studio（DB管理UI） → https://local.drizzle.studio?port=4984&host=127.0.0.1
+# Drizzle Studio（DB管理UI）- 自動でブラウザが開きます
+bun run db:studio:open
+
+# または、手動でURLを開く場合
 docker compose exec api bun run db:studio
+# → https://local.drizzle.studio?port=4984&host=127.0.0.1 にアクセス
 ```
 
 ### コード品質
