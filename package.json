@@ -8,7 +8,8 @@
     "start": "bun run src/server.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "bun run src/infrastructure/database/migrate.ts",
-    "db:studio": "drizzle-kit studio",
+    "db:studio": "npx drizzle-kit studio --port 4984 --host 0.0.0.0",
+    "db:studio:local": "DATABASE_URL=\"postgresql://postgres:postgres@localhost:5433/hono_backend_sample\" npx drizzle-kit studio --port 4984",
     "lint": "biome lint ./src",
     "lint:fix": "biome lint --write ./src",
     "format": "biome format --write ./src",
@@ -31,7 +32,7 @@
     "hono": "^4.6.0",
     "zod": "^3.23.8",
     "@hono/zod-validator": "^0.7.6",
-    "drizzle-orm": "^0.36.4",
+    "drizzle-orm": "^0.45.1",
     "postgres": "^3.4.5"
   },
   "devDependencies": {

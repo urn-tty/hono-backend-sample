@@ -1,6 +1,13 @@
 # ビルドステージ
 FROM oven/bun:1.3.5 AS builder
 
+# Node.jsとnpmをインストール（drizzle-kit studio用）
+RUN apt-get update && \
+    apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g npm@latest
+
 WORKDIR /app
 
 # 依存関係をコピー
@@ -20,6 +27,13 @@ COPY . .
 
 # 本番ステージ（本番環境のみ）
 FROM oven/bun:1.3.5 AS production
+
+# Node.jsとnpmをインストール（drizzle-kit studio用）
+RUN apt-get update && \
+    apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g npm@latest
 
 WORKDIR /app
 
@@ -42,6 +56,8 @@ CMD ["bun", "run", "src/server.ts"]
 
 # 開発ステージ（開発環境用）
 FROM builder AS development
+
+# Node.jsとnpmはbuilderステージでインストール済み
 
 WORKDIR /app
 
