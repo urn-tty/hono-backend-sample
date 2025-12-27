@@ -3,21 +3,30 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: ${BUILD_TARGET:-production}
+      target: ${BUILD_TARGET:-development}
       args:
-        - NODE_ENV=${NODE_ENV:-production}
+        - NODE_ENV=${NODE_ENV:-development}
     ports:
       - "${PORT:-8080}:${PORT:-8080}"
       - "4984:4984" # Drizzle Studio
     environment:
       - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/hono_backend_sample}
       - PORT=${PORT:-8080}
-      - NODE_ENV=${NODE_ENV:-production}
+      - NODE_ENV=${NODE_ENV:-development}
+    volumes:
+      # 開発環境用: ソースコードをマウント（リアルタイム反映）
+      # 本番環境では BUILD_TARGET=production で起動してください
+      - ./src:/app/src
+      - ./drizzle:/app/drizzle
+      - ./drizzle.config.ts:/app/drizzle.config.ts
+      - ./scripts:/app/scripts
+      # node_modulesは除外（ホストとコンテナで別々に管理）
+      - /app/node_modules
+    command: bun run --watch src/server.ts
     depends_on:
       postgres:
         condition: service_healthy
     restart: unless-stopped
-    # 開発環境ではdocker-compose.override.ymlでボリュームマウントとコマンドを上書き
     healthcheck:
       test:
         [

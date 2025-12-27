@@ -17,20 +17,35 @@ DDD（ドメイン駆動設計）とクリーンアーキテクチャで設計�
 
 ## クイックスタート
 
+### 開発環境（デフォルト）
+
 ```bash
-# 1. 環境変数の設定
-cp .env.sample .env
+# コンテナの起動（開発モード）
+docker compose up
 
-# 2. コンテナの起動
-docker compose up -d --build
-
-# 3. マイグレーション実行
-docker compose exec api bun run db:migrate
+# スキーマを変更した場合
+docker compose exec api bun run db:generate
+# → サーバーが自動的に再起動してマイグレーションを実行します
 ```
 
 サーバーが `http://localhost:8080` で起動します。
 
 **API ドキュメント**: `http://localhost:8080/api/docs`
+
+### 本番環境
+
+```bash
+# 環境変数を設定して本番モードで起動
+BUILD_TARGET=production NODE_ENV=production docker compose up -d --build
+
+# マイグレーション実行
+docker compose exec api bun run db:migrate
+```
+
+**開発環境の特徴:**
+- ソースコードの変更が即座に反映（ホットリロード）
+- スキーマ変更時に自動マイグレーション実行
+- Dockerの再起動不要！
 
 ## ディレクトリ構造
 
@@ -73,8 +88,11 @@ Zod スキーマから自動生成されるため、常に最新の API 仕様�
 ### Docker
 
 ```bash
-# コンテナの起動
-docker compose up -d
+# 開発環境で起動（デフォルト）
+docker compose up
+
+# 本番環境で起動
+BUILD_TARGET=production NODE_ENV=production docker compose up -d --build
 
 # コンテナの停止
 docker compose down
@@ -84,9 +102,37 @@ docker compose logs -f api
 
 # コンテナ内でコマンド実行
 docker compose exec api <command>
+
+# コンテナの再ビルド（依存関係変更時など）
+docker compose build --no-cache
 ```
 
 ### データベース
+
+#### 開発環境（推奨）
+
+開発環境では、スキーマ変更が自動的に反映されます：
+
+```bash
+# サーバーを起動
+docker compose up
+
+# スキーマを変更したら（src/infrastructure/database/drizzle.schema.ts）
+# 1. マイグレーションファイルを生成
+docker compose exec api bun run db:generate
+
+# 2. サーバーが自動的に再起動してマイグレーションを実行！
+#    ※ Dockerの再起動は不要です！
+```
+
+**オプション:** スキーマファイルの変更を監視して自動でマイグレーションファイル生成
+
+```bash
+# ターミナル2で実行
+docker compose exec api bun run db:generate:watch
+```
+
+#### 手動実行（本番環境など）
 
 ```bash
 # マイグレーション実行
@@ -102,6 +148,13 @@ bun run db:studio:open
 docker compose exec api bun run db:studio
 # → https://local.drizzle.studio?port=4984&host=127.0.0.1 にアクセス
 ```
+
+#### スキーマ変更のワークフロー
+
+1. `src/infrastructure/database/drizzle.schema.ts` を編集
+2. マイグレーションファイルを生成: `docker compose exec api bun run db:generate`
+3. 開発環境では自動的にサーバーが再起動してマイグレーションが実行されます
+4. 本番環境では手動で `db:migrate` を実行
 
 ### コード品質
 
