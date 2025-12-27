@@ -56,7 +56,7 @@ app.get(
     },
     theme: "purple",
     layout: "modern",
-  })
+  }),
 );
 
 export default app;

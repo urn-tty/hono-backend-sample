@@ -1,5 +1,4 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
-import type { Context } from "hono";
 import {
   CreateUserDtoSchema,
   UpdateUserDtoSchema,
@@ -55,7 +54,8 @@ export function createUserOpenAPIRoutes(controller: UserController) {
         },
       },
     }),
-    (c: Context) => controller.list(c),
+    // @ts-expect-error - Controller returns multiple status codes
+    async (c) => controller.list(c)
   );
 
   // ユーザー取得
@@ -104,7 +104,8 @@ export function createUserOpenAPIRoutes(controller: UserController) {
         },
       },
     }),
-    (c: Context) => controller.get(c),
+    // @ts-expect-error - Controller returns multiple status codes
+    async (c) => controller.get(c)
   );
 
   // ユーザー作成
@@ -159,7 +160,7 @@ export function createUserOpenAPIRoutes(controller: UserController) {
         },
       },
     }),
-    (c: Context) => controller.create(c),
+    async (c) => controller.create(c)
   );
 
   // ユーザー更新
@@ -223,7 +224,8 @@ export function createUserOpenAPIRoutes(controller: UserController) {
         },
       },
     }),
-    (c: Context) => controller.update(c),
+    // @ts-expect-error - Controller returns multiple status codes
+    async (c) => controller.update(c)
   );
 
   // ユーザー削除
@@ -274,7 +276,8 @@ export function createUserOpenAPIRoutes(controller: UserController) {
         },
       },
     }),
-    (c: Context) => controller.delete(c),
+    // @ts-expect-error - Controller returns multiple status codes
+    async (c) => controller.delete(c)
   );
 
   return app;
