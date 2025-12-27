@@ -32,24 +32,6 @@ cp .env.sample .env
 #### 2. 開発環境
 
 ```bash
-# docker-compose.override.ymlを作成（ホットリロード対応）
-cat > docker-compose.override.yml << EOF
-version: "3.8"
-services:
-  api:
-    build:
-      target: development
-    volumes:
-      - ./src:/app/src
-      - ./package.json:/app/package.json
-      - ./bun.lock:/app/bun.lock
-      - /app/node_modules  # コンテナ内のnode_modulesを保護（ローカルのnode_modulesと分離）
-    command: bun run --watch src/server.ts
-EOF
-
-# .envでNODE_ENV=developmentを設定
-# docker-compose.override.ymlが自動的に読み込まれます
-
 # コンテナのビルドと起動（パッケージはコンテナ内で自動インストールされます）
 docker-compose up -d --build
 
@@ -199,22 +181,6 @@ bun run dev
 - `DELETE /api/users/:id` - ユーザー削除
 
 ## 開発コマンド
-
-### ローカル開発
-
-```bash
-# 開発サーバー起動
-bun run dev
-
-# マイグレーション生成
-bun run db:generate
-
-# マイグレーション実行
-bun run db:migrate
-
-# Drizzle Studio（DB管理UI）
-bun run db:studio
-```
 
 ### Docker Compose
 
