@@ -1,5 +1,5 @@
-import type { Context } from "hono";
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
+import type { Context } from "hono";
 import {
   CreateUserDtoSchema,
   UpdateUserDtoSchema,
@@ -55,7 +55,7 @@ export function createUserOpenAPIRoutes(controller: UserController) {
         },
       },
     }),
-    (c: Context) => controller.list(c)
+    (c: Context) => controller.list(c),
   );
 
   // ユーザー取得
@@ -104,7 +104,7 @@ export function createUserOpenAPIRoutes(controller: UserController) {
         },
       },
     }),
-    (c: Context) => controller.get(c)
+    (c: Context) => controller.get(c),
   );
 
   // ユーザー作成
@@ -159,7 +159,7 @@ export function createUserOpenAPIRoutes(controller: UserController) {
         },
       },
     }),
-    (c: Context) => controller.create(c)
+    (c: Context) => controller.create(c),
   );
 
   // ユーザー更新
@@ -223,7 +223,7 @@ export function createUserOpenAPIRoutes(controller: UserController) {
         },
       },
     }),
-    (c: Context) => controller.update(c)
+    (c: Context) => controller.update(c),
   );
 
   // ユーザー削除
@@ -274,7 +274,7 @@ export function createUserOpenAPIRoutes(controller: UserController) {
         },
       },
     }),
-    (c: Context) => controller.delete(c)
+    (c: Context) => controller.delete(c),
   );
 
   return app;
