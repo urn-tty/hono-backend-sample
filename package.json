@@ -1,0 +1,34 @@
+{
+  "name": "api-sample",
+  "version": "1.0.0",
+  "description": "Hono + TypeScript API server with Bun",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "bun run src/server.ts",
+    "start": "bun run src/server.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "bun run src/infrastructure/database/migrate.ts",
+    "db:studio": "drizzle-kit studio"
+  },
+  "keywords": [
+    "hono",
+    "typescript",
+    "bun",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "hono": "^4.6.0",
+    "zod": "^3.23.8",
+    "@hono/zod-validator": "^0.3.1",
+    "drizzle-orm": "^0.36.4",
+    "better-sqlite3": "^11.3.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "drizzle-kit": "^0.30.0",
+    "@types/node": "^22.10.1",
+    "typescript": "^5.7.2"
+  }
+}
